@@ -1,82 +1,105 @@
+public class LinkList {
 
-public class LinkList
-{
-	private Link first;            // ref to first link on list
+    private Link first;  // ref to first link on list
 
-	//-------------------------------------------------------------
-	public LinkList()              // constructor
-	{
-		first = null;               // no links on list yet
-	}
-	//-------------------------------------------------------------
-	public void insertFirst(Card card)
-	{                           // make new link
-		Link newLink = new Link(card);
-		newLink.next = first;       // it points to old first link
-		first = newLink;            // now first points to this
-	}
-	public void add(Card card)
-	{                           // make new link
-		Link newLink = new Link(card);
-		newLink.next = first;       // it points to old first link
-		first = newLink;            // now first points to this
-	}
-	//-------------------------------------------------------------
-	public Link find(Card cardToFind)      // find link with given key
-	{                           // (assumes non-empty list)
-		Link current = first;              // start at 'first'
-		while(!current.equals(cardToFind))        // while no match,
-		{
-			if(current.next == null)        // if end of list,
-				return null;                 // didn't find it
-			else                            // not end of list,
-				current = current.next;      // go to next link
-		}
-		return current;                    // found it
-	}
-	//-------------------------------------------------------------
-	public Link delete(Card cardToFind)    // delete link with given key
-	{                           // (assumes non-empty list)
-		Link current = first;              // search for link
-		Link previous = first;
-		while(!current.equals(cardToFind))
-		{
-			if(!current.equals(cardToFind))
-				return null;                 // didn't find it
-			else
-			{
-				previous = current;          // go to next link
-				current = current.next;
-			}
-		}                               // found it
-		if(current.equals(cardToFind))               // if first link,
-			first = first.next;             //    change first
-		else                               // otherwise,
-			previous.next = current.next;   //    bypass it
-		return current;
-	}
-	//-------------------------------------------------------------
-	public void displayList()      // display the list
-	{
-		System.out.print("List (first-->last): ");
-		Link current = first;       // start at beginning of list
-		while(current != null)      // until end of list,
-		{
-			current.displayLink();   // print data
-			current = current.next;  // move to next link
-		}
-		System.out.println("");
-	}
-	//-------------------------------------------------------------
+    //-------------------------------------------------------------
+    public LinkList()    // constructor
+    {
+        first = null;  // no links on list yet
+    }
+    //-------------------------------------------------------------
+    public void insertFirst(Card card) 
+    {
+        Link newLink = new Link(card);  
+        newLink.next = first;           // it points to old first link
+        first = newLink;                // now first points to this
+    }
+    public void add(Card card) 
+    {                          // make new link
+        Link newLink = new Link(card);  
+        newLink.next = first;           // it points to old first link
+        first = newLink;                // now first points to this
+    }
+    //-------------------------------------------------------------
+    public Link find(Card cardToFind)     // find link with given key
+    {                            // (assumes non-empty list)
+        Link current = first;            // start at 'first'
+        while (current != null) {  // Traverse the list
+            if (current.cardLink.equals(cardToFind)) {  // If the card matches
+                return current;  // Return the link containing the card
+            }
+            current = current.next;  // Move to the next link
+        }
+        return null;  // Return null if the card is not found
+    }
 
-	//-------------------------------------------------------------
-	public Card getFirst()    // delete link with given key
-	{                           // (assumes non-empty list)
-		Link current = first;              // search for link
-		first = first.next;             //    change first
-		return current.cardLink;
-	}
+    //-------------------------------------------------------------
+    public Link delete(Card cardToFind)   // delete link with given key
+    {                            // (assumes non-empty list)
+        Link current = first;  // Start at the first link
+        Link previous = null;  // Keep track of the previous link
 
+        while (current != null)  {  // Traverse the list
+            if (current.cardLink.equals(cardToFind)) {  // If the card matches
+                if (previous == null) {  // If it's the first card in the list
+                    first = current.next;  // Set the first link to the next one
+                } else {
+                    previous.next = current.next;  // Bypass the current link
+                }
+                return current;  // Return the deleted link
+            }
+            previous = current;  // Move to the next link
+            current = current.next;  // Move to the next link
+        }
+        return null;  // Return null if the card is not found
+    }
+
+    //-------------------------------------------------------------
+    public void displayList()     // display the list
+    {
+        Link current = first;  // Start at the first link
+        System.out.print("List (first-->last): ");
+        while (current != null) {  // Traverse the list
+            current.displayLink();  // Display the current card
+            current = current.next;  // Move to the next link
+        }
+        System.out.println("");  // Print a newline after displaying the list
+    }
+
+    //-------------------------------------------------------------
+    public Card getFirst() // Method to get the first link in the list
+    {
+        if (first != null) {
+            Card firstCard = first.cardLink;  // Get the card from the first link
+            first = first.next;  // Move the first link to the next one
+            return firstCard;  // Return the card
+        }
+        return null;  // Return null if the list is empty
+    }
+
+    //-------------------------------------------------------------
+    public Link getFirstLink()  // Method to get the first link for iteration (used in shuffle)
+    {
+        return first;  // Return the first link
+    }
+
+    //-------------------------------------------------------------
+    public void clear() // Method to clear the entire list
+    {
+        first = null;  // Set the first link to null, effectively clearing the list
+    }
+
+    //-------------------------------------------------------------
+    public int size() // Method to get the size of the list (i.e., the number of cards)
+    {
+        int size = 0;
+        Link current = first;  // Start at the first link
+        while (current != null) {  // Traverse the list
+            size++;  // Increment the size for each link
+            current = current.next;  // Move to the next link
+        }
+        return size;  // Return the size of the list
+    }
 }  // end class LinkList
 ////////////////////////////////////////////////////////////////
 /*class LinkedLists
